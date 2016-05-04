@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 use Test2::Bundle::Extended;
 use Alien::MSYS2;
 use Test::Alien;

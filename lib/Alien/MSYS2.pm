@@ -91,15 +91,15 @@ sub bin_dir
 
 =head2 cflags
 
-provided for L<Alien::Base> compatability.  Does not do anything useful.
+provided for L<Alien::Base> compatibility.  Does not do anything useful.
 
 =head2 dynamic_libs
 
-provided for L<Alien::Base> compatability.  Does not do anything useful.
+provided for L<Alien::Base> compatibility.  Does not do anything useful.
 
 =head2 libs
 
-provided for L<Alien::Base> compatability.  Does not do anything useful.
+provided for L<Alien::Base> compatibility.  Does not do anything useful.
 
 =cut
 

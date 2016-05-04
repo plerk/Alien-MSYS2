@@ -1,6 +1,11 @@
 language: perl
 sudo: false
 
+addons:
+  apt:
+    packages:
+      - liblzma-dev
+
 install:
   - perlbrew list
   - dzil authordeps --missing | cpanm -n
@@ -17,3 +22,7 @@ perl:
 
 script:
   - dzil test -v
+
+
+env:
+  - ALIEN_MSYS2_NON_NATIVE=1

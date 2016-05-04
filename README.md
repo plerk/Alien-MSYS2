@@ -1,4 +1,4 @@
-# Alien::MSYS2 [![Build Status](https://secure.travis-ci.org/plicease/Alien-MSYS2.png)](http://travis-ci.org/plicease/Alien-MSYS2)
+# Alien::MSYS2 [![Build Status](https://secure.travis-ci.org/plicease/Alien-MSYS2.png)](http://travis-ci.org/plicease/Alien-MSYS2) [![Build status](https://ci.appveyor.com/api/projects/status/xow1db4mtk6m7v0m/branch/master?svg=true)](https://ci.appveyor.com/project/plicease/Alien-MSYS2/branch/master)
 
 Tools required for autogen scripts in Windows (MSYS2)
 
@@ -37,15 +37,15 @@ will return an _empty_ list.
 
 ## cflags
 
-provided for [Alien::Base](https://metacpan.org/pod/Alien::Base) compatability.  Does not do anything useful.
+provided for [Alien::Base](https://metacpan.org/pod/Alien::Base) compatibility.  Does not do anything useful.
 
 ## dynamic\_libs
 
-provided for [Alien::Base](https://metacpan.org/pod/Alien::Base) compatability.  Does not do anything useful.
+provided for [Alien::Base](https://metacpan.org/pod/Alien::Base) compatibility.  Does not do anything useful.
 
 ## libs
 
-provided for [Alien::Base](https://metacpan.org/pod/Alien::Base) compatability.  Does not do anything useful.
+provided for [Alien::Base](https://metacpan.org/pod/Alien::Base) compatibility.  Does not do anything useful.
 
 # AUTHOR
 
