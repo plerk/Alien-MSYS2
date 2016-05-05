@@ -193,6 +193,7 @@ unless(-r $filename)
   my $fh;
   open($fh, '>', "$filename.tmp") 
     || die "unable to open $filename.tmp $!";
+  binmode $fh;
   print($fh $http_response->{content}) 
     || die "unable to write to $filename.tmp $!";
   close($fh) 
