@@ -16,14 +16,17 @@ $modules{$_} = $_ for qw(
   File::ShareDir::Install
   HTTP::Tiny
   IO::Uncompress::UnXz
+  JSON::PP
   Test2::Bundle::Extended
   Test::Alien
   Test::More
 );
 
 $post_diag = sub {
-  diag "Alien::MSYS2->install_type = ", eval { require Alien::MSYS2; Alien::MSYS2->install_type; } // "error: $@";
-  diag "Alien::MSYS2->msys2_root   = ", eval { Alien::MSYS2->msys2_root } // " error: $@";
+  diag "Alien::MSYS2->install_type       = ", eval { require Alien::MSYS2; Alien::MSYS2->install_type; } // "error: $@";
+  diag "Alien::MSYS2->msys2_root         = ", eval { Alien::MSYS2->msys2_root } // " error: $@";
+  diag "Alien::MSYS2->_config->{probe}   = ", eval { Alien::MSYS2->_config->{probe} } // " error: $@";
+  diag "Alien::MSYS2->_config->{ptrsize} = ", eval { Alien::MSYS2->_config->{ptrsize} } // " error: $@";
 };
 
 my @modules = sort keys %modules;

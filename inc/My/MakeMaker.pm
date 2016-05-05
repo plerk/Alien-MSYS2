@@ -11,7 +11,7 @@ around write_makefile_args => sub {
   
   my %h = %{ $self->$orig(@_) };
   
-  $h{clean} = { FILES => "share/msys* msys2-*-latest.tar.xz" };
+  $h{clean} = { FILES => "share/msys* msys2-*-latest.tar.xz share/alien_msys2.json" };
   
   \%h;
 };

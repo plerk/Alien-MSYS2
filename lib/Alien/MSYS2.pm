@@ -3,7 +3,8 @@ package Alien::MSYS2;
 use strict;
 use warnings;
 use 5.008001;
-use Config;
+use File::Spec;
+use JSON::PP ();
 
 # ABSTRACT: Tools required for autogen scripts in Windows (MSYS2)
 # VERSION
@@ -37,10 +38,42 @@ or "share" indicating respectively either a system or a share install.
 
 =cut
 
+{
+
+  my $share;
+  my $config;
+
+  sub _share ()
+  {
+    $share ||= do {
+      $_ = __FILE__;
+      s{(MSYS2).pm}{.$1.devshare};
+      my $share = -e $_
+        ? do {
+          require File::Basename;
+          # TODO: squeeze out the updirs
+          File::Spec->rel2abs(File::Spec->catdir(File::Basename::dirname("lib/Alien/MSYS2.pm"), File::Spec->updir, File::Spec->updir, "share"));
+        }
+        : do {
+          require File::ShareDir;
+          File::ShareDir::dist_dir('Alien-MSYS2');
+        };
+    };
+  }
+
+  sub _config ()
+  {
+    $config ||= do {
+      my $filename = File::Spec->catfile(_share, 'alien_msys2.json');
+      open my $fh, '<', $filename;
+      JSON::PP::decode_json(do { local $/; <$fh> });
+    };
+  }
+}
+
 sub install_type
 {
-  # TODO: support for probing for system msys2
-  "share";
+  _config()->{install_type};
 }
 
 =head2 msys2_root
@@ -53,21 +86,7 @@ Returns the root of the MSYS2 install.
 
 sub msys2_root
 {
-  $_ = __FILE__;
-  s{(MSYS2).pm}{.$1.devshare};
-  my $share = -e $_
-    ? do {
-      require File::Basename;
-      require File::Spec;
-      # TODO: squeeze out the updirs
-      File::Spec->rel2abs(File::Spec->catdir(File::Basename::dirname("lib/Alien/MSYS2.pm"), File::Spec->updir, File::Spec->updir, "share"));
-    }
-    : do {
-      require File::ShareDir;
-      File::ShareDir::dist_dir('Alien-MSYS2');
-    };
-
-  File::Spec->catdir($share, $Config{ptrsize} == 8 ? 'msys64' : 'msys32');
+  _config->{msys2_root} || File::Spec->catdir(_share, _config->{ptrsize} == 8 ? 'msys64' : 'msys32');
 }
 
 =head2 bin_dir
@@ -82,9 +101,10 @@ will return an I<empty> list.
 
 sub bin_dir
 {
+  # TODO: for a system install, bin_dir has to decide if MSYS2 is already
+  # in the path or not.
   my($class) = @_;
-  $class->install_type eq 'system' ? () : do {
-    require File::Spec;
+  $^O ne 'msys' && $class->install_type eq 'system' ? () : do {
     (File::Spec->catdir( $class->msys2_root, qw( usr bin ) ));
   };
 }
