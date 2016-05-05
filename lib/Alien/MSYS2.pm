@@ -9,6 +9,17 @@ use JSON::PP ();
 # ABSTRACT: Tools required for autogen scripts in Windows (MSYS2)
 # VERSION
 
+=head1 SYNOPSIS
+
+ use Alien::MSYS2;
+ my $root = Alien::MSYS2->msys2_root;
+
+=head1 DESCRIPTION
+
+This L<Alien> module provides the L<https://msys2.github.io/|MSYS2> tools,
+wich are useful for building many open source packages on the Microsoft
+Windows platform.
+
 =head1 CONSTRUCTOR
 
 =head2 new

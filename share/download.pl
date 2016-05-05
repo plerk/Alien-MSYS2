@@ -25,6 +25,79 @@ if($^O eq 'msys' && -f "/mingw32_shell.bat")
 
 eval {
 
+  # TRY to find MSYS2 using the uninstaller registry
+  # ways that searching for existing MSYS2 install can fail:
+  # 1. ALIEN_FORCE or ALIEN_INSTALL_TYPE specify a share install (see Alien::Base documentation)
+  # 2. No Win32 (ie not MSWin32 or cygwin)
+  # 3. Win32API::Registry 0.21 is not installed (it comes with Strawberry, but is not otherwise in core)
+  # 4. MSYS2 is not already installed, or wasn't installed with the installer
+  
+  die "force" if $ENV{ALIEN_FORCE} || ($ENV{ALIEN_INSTALL_TYPE}||'system') ne 'system';
+
+  require Win32API::Registry;
+  die "old version" unless Win32API::Registry->VERSION >= 0.21;
+  
+  my $uninstall_key;
+  Win32API::Registry::RegOpenKeyEx(
+    Win32API::Registry::HKEY_CURRENT_USER(),
+    'software\\microsoft\\windows\\currentversion\\uninstall',
+    0,
+    Win32API::Registry::KEY_READ(),
+    $uninstall_key
+  ) || die "unable to get uninstall key";
+
+  my $path;
+
+  my $pos = 0;
+  my($sub_key, $class, $time) = ('','','');
+  my($name_size, $class_size) = (1024,1024);
+  while(Win32API::Registry::RegEnumKeyEx( $uninstall_key, $pos++, $sub_key, $name_size, [], $class, $class_size, $time))
+  {
+    my $item_key;
+    Win32API::Registry::RegOpenKeyEx($uninstall_key, $sub_key, 0, Win32API::Registry::KEY_READ(), $item_key) || next;
+
+    my $display_name;
+    if(Win32API::Registry::RegQueryValueEx($item_key, "DisplayName", [], Win32API::Registry::REG_SZ(), $display_name, []))
+    {
+      if($display_name =~ /^MSYS2 (32|64)bit$/)
+      {
+        if($1 == ($Config{ptrsize} == 8 ? 64 : 32))
+        {
+          my $install_location;
+          if(Win32API::Registry::RegQueryValueEx($item_key, "InstallLocation", [], Win32API::Registry::REG_SZ(), $install_location, []))
+          {
+            if(-f File::Spec->catfile($install_location, 'mingw32_shell.bat'))
+            {
+              $path = $install_location;
+            }
+          }
+        }
+      }
+    }
+    
+    Win32API::Registry::RegCloseKey($item_key);
+
+    last if $path;
+  }
+  
+  Win32API::Registry::RegCloseKey($uninstall_key);
+
+  if($path)
+  {
+    write_config(
+      install_type => 'system',
+      msys2_root   => $path,
+      probe        => 'uninstaller registry',
+    );
+  }
+
+};
+
+warn $@ if $@;
+exit;
+
+eval {
+
   # TRY to find MSYS2 using short cuts that are usually installed by the GUI installer
   # ways that searching for existing MSYS2 install can fail:
   # 1. ALIEN_FORCE or ALIEN_INSTALL_TYPE specify a share install (see Alien::Base documentation)
