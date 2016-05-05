@@ -169,6 +169,14 @@ eval {
   }
 };
 
+if(($ENV{ALIEN_INSTALL_TYPE}||'share') eq 'system')
+{
+  print "You requested a system install via the ALIEN_INSTALL_TYPE environment variable\n";
+  print "But I was unable to find MSYS2 in on your system.  Please see the Alien::MSYS2\n";
+  print "documentation for details.\n";
+  exit 2;
+}
+
 my $dest = File::Spec->catdir($root, $Config{ptrsize} == 8 ? 'msys64' : 'msys32');
 
 my $filename = "msys2-$arch-latest.tar.xz";
