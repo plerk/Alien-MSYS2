@@ -2,6 +2,51 @@
 
 Tools required for autogen scripts in Windows (MSYS2)
 
+# SYNOPSIS
+
+    use Alien::MSYS2;
+    my $root = Alien::MSYS2->msys2_root;
+
+# DESCRIPTION
+
+This [Alien](https://metacpan.org/pod/Alien) module provides the [https://msys2.github.io/|MSYS2](https://msys2.github.io/|MSYS2) tools,
+wich are useful for building many open source packages on the Microsoft
+Windows platform.  When this module is installed, it will generally look
+for an existing `MSYS2` install, if it is available, and if not it will
+attempt to download it from the internet and install it to a share directory
+so that it can be used by other Perl modules.
+
+Here is how the detction logic works:
+
+- check for user override for download
+
+    If the `ALIEN_FORCE` environment variable is set to true, or if
+    `ALIEN_INSTALL_TYPE` is set to `share`, then [Alien::MSYS2](https://metacpan.org/pod/Alien::MSYS2) will not
+    probe your system for an existing `MSYS2` install, and instead download
+    it from the internet.
+
+- check for user override for system
+
+    If the `ALIEN_MSYS2_ROOT` variable is set, [Alien::MSYS2](https://metacpan.org/pod/Alien::MSYS2) will check if
+    that is the location of `MSYS2` and use it.
+
+- check registry
+
+    If [Alien::MSYS2](https://metacpan.org/pod/Alien::MSYS2) can find the uninstall registry key for `MSYS2` it will
+    use this.  Typically if you installed `MSYS2` using the GUI installer, and
+    haven't moved it since this should work.
+
+- check shortcuts
+
+    If [Alien::MSYS2](https://metacpan.org/pod/Alien::MSYS2) can find appropriate start menu shortcuts that point to
+    a valid `MSYS2` install, then it will use that.
+
+- check that download is acceptable fallback
+
+    If `ALIEN_INSTALL_TYPE` is not set to `system`, then [Alien::MSYS2](https://metacpan.org/pod/Alien::MSYS2) will
+    download `MSYS` from the internet.  If it is set to `system` and none of
+    the other methods above succeeded, the install for [Alien::MSYS2](https://metacpan.org/pod/Alien::MSYS2) will fail.
+
 # CONSTRUCTOR
 
 ## new
@@ -46,6 +91,22 @@ provided for [Alien::Base](https://metacpan.org/pod/Alien::Base) compatibility. 
 ## libs
 
 provided for [Alien::Base](https://metacpan.org/pod/Alien::Base) compatibility.  Does not do anything useful.
+
+# SEE ALSO
+
+- [Alien](https://metacpan.org/pod/Alien)
+
+    Manifesto for the [Alien](https://metacpan.org/pod/Alien) concept.
+
+- [ALien::MSYS](https://metacpan.org/pod/ALien::MSYS)
+
+    `MSYS` is a project with a similar name and feature set to `MSYS2`, but despite the name they
+    are different projects, not different versions of the same project.  [Alien::MSYS](https://metacpan.org/pod/Alien::MSYS) provides
+    `MSYS`.
+
+- [Alien::Base](https://metacpan.org/pod/Alien::Base)
+
+    base class useful for writing [Alien](https://metacpan.org/pod/Alien) modules.
 
 # AUTHOR
 

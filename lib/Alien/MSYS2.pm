@@ -18,7 +18,45 @@ use JSON::PP ();
 
 This L<Alien> module provides the L<https://msys2.github.io/|MSYS2> tools,
 wich are useful for building many open source packages on the Microsoft
-Windows platform.
+Windows platform.  When this module is installed, it will generally look
+for an existing C<MSYS2> install, if it is available, and if not it will
+attempt to download it from the internet and install it to a share directory
+so that it can be used by other Perl modules.
+
+Here is how the detction logic works:
+
+=over 4
+
+=item check for user override for download
+
+If the C<ALIEN_FORCE> environment variable is set to true, or if
+C<ALIEN_INSTALL_TYPE> is set to C<share>, then L<Alien::MSYS2> will not
+probe your system for an existing C<MSYS2> install, and instead download
+it from the internet.
+
+=item check for user override for system
+
+If the C<ALIEN_MSYS2_ROOT> variable is set, L<Alien::MSYS2> will check if
+that is the location of C<MSYS2> and use it.
+
+=item check registry
+
+If L<Alien::MSYS2> can find the uninstall registry key for C<MSYS2> it will
+use this.  Typically if you installed C<MSYS2> using the GUI installer, and
+haven't moved it since this should work.
+
+=item check shortcuts
+
+If L<Alien::MSYS2> can find appropriate start menu shortcuts that point to
+a valid C<MSYS2> install, then it will use that.
+
+=item check that download is acceptable fallback
+
+If C<ALIEN_INSTALL_TYPE> is not set to C<system>, then L<Alien::MSYS2> will
+download C<MSYS> from the internet.  If it is set to C<system> and none of
+the other methods above succeeded, the install for L<Alien::MSYS2> will fail.
+
+=back
 
 =head1 CONSTRUCTOR
 
@@ -139,3 +177,28 @@ sub libs   { '' }
 sub dynamic_libs { () }
 
 1;
+
+
+=head1 SEE ALSO
+
+=over 4
+
+=item L<Alien>
+
+Manifesto for the L<Alien> concept.
+
+=item L<ALien::MSYS>
+
+C<MSYS> is a project with a similar name and feature set to C<MSYS2>, but despite the name they
+are different projects, not different versions of the same project.  L<Alien::MSYS> provides
+C<MSYS>.
+
+=item L<Alien::Base>
+
+base class useful for writing L<Alien> modules.
+
+=cut
+
+=back
+
+=cut
