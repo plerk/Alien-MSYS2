@@ -25,6 +25,26 @@ if($^O eq 'msys' && -f "/mingw32_shell.bat")
 
 eval {
 
+  # TRY to find MSYS2 using the user override variable ALIEN_MSYS2_ROOT
+  # ways that searching for existing MSYS2 install can fail:
+  # 1. ALIEN_FORCE or ALIEN_INSTALL_TYPE specify a share install (see Alien::Base documentation)
+  # 2. The ALIEN_MSYS2_ROOT environment variable is not set
+  # 3. The MSYS2 environment is not installed at the location specified by ALIEN_MSYS2_ROOT
+
+  die "force" if $ENV{ALIEN_FORCE} || ($ENV{ALIEN_INSTALL_TYPE}||'system') ne 'system';
+  die "not defined" unless defined $ENV{ALIEN_MSYS2_ROOT};
+  die "not found" unless -f File::Spec->catfile($ENV{ALIEN_MSYS2_ROOT}, 'mingw32_shell.bat');
+
+  write_config(
+    install_type => 'system',
+    msys2_root   => $ENV{ALIEN_MSYS2_ROOT},
+    probe        => 'environment',
+  );
+  exit;
+};
+
+eval {
+
   # TRY to find MSYS2 using the uninstaller registry
   # ways that searching for existing MSYS2 install can fail:
   # 1. ALIEN_FORCE or ALIEN_INSTALL_TYPE specify a share install (see Alien::Base documentation)
@@ -82,19 +102,16 @@ eval {
   
   Win32API::Registry::RegCloseKey($uninstall_key);
 
-  if($path)
-  {
+  if($path) {
     write_config(
       install_type => 'system',
       msys2_root   => $path,
       probe        => 'uninstaller registry',
     );
+    exit;
   }
 
 };
-
-warn $@ if $@;
-exit;
 
 eval {
 
