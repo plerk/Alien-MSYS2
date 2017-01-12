@@ -21,7 +21,7 @@ on intentionally making breaking changes, but because of the maturity of
 this module it may be unavoidable.  If you need something more battle tested
 you should try L<Alien::MSYS> instead.
 
-This L<Alien> module provides the L<https://msys2.github.io/|MSYS2> tools,
+This L<Alien> module provides the L<MSYS2|https://msys2.github.io/> tools,
 which are useful for building many open source packages on the Microsoft
 Windows platform.  When this module is installed, it will generally look
 for an existing C<MSYS2> install, if it is available, and if not it will
