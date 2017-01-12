@@ -58,7 +58,7 @@ a valid C<MSYS2> install, then it will use that.
 =item check that download is acceptable fallback
 
 If C<ALIEN_INSTALL_TYPE> is not set to C<system>, then L<Alien::MSYS2> will
-download C<MSYS> from the internet.  If it is set to C<system> and none of
+download C<MSYS2> from the internet.  If it is set to C<system> and none of
 the other methods above succeeded, the install for L<Alien::MSYS2> will fail.
 
 =back
@@ -87,7 +87,7 @@ sub new
 
  my $type = Alien::MSYS2->install_type;
 
-Returns the install type for MSYS.  This will be either the string "system"
+Returns the install type for MSYS2.  This will be either the string "system"
 or "share" indicating respectively either a system or a share install.
 
 =cut

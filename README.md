@@ -49,7 +49,7 @@ Here is how the detection logic works:
 - check that download is acceptable fallback
 
     If `ALIEN_INSTALL_TYPE` is not set to `system`, then [Alien::MSYS2](https://metacpan.org/pod/Alien::MSYS2) will
-    download `MSYS` from the internet.  If it is set to `system` and none of
+    download `MSYS2` from the internet.  If it is set to `system` and none of
     the other methods above succeeded, the install for [Alien::MSYS2](https://metacpan.org/pod/Alien::MSYS2) will fail.
 
 # CONSTRUCTOR
@@ -68,7 +68,7 @@ class methods, so usually you do not need to do this.
 
     my $type = Alien::MSYS2->install_type;
 
-Returns the install type for MSYS.  This will be either the string "system"
+Returns the install type for MSYS2.  This will be either the string "system"
 or "share" indicating respectively either a system or a share install.
 
 ## msys2\_root
