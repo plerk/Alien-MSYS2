@@ -9,14 +9,19 @@ Tools required for autogen scripts in Windows (MSYS2)
 
 # DESCRIPTION
 
+**Please note** that this module is somewhat experimental.  I do not intend
+on intentionally making breaking changes, but because of the maturity of
+this module it may be unavoidable.  If you need something more battle tested
+you should try [Alien::MSYS](https://metacpan.org/pod/Alien::MSYS) instead.
+
 This [Alien](https://metacpan.org/pod/Alien) module provides the [https://msys2.github.io/|MSYS2](https://msys2.github.io/|MSYS2) tools,
-wich are useful for building many open source packages on the Microsoft
+which are useful for building many open source packages on the Microsoft
 Windows platform.  When this module is installed, it will generally look
 for an existing `MSYS2` install, if it is available, and if not it will
 attempt to download it from the internet and install it to a share directory
 so that it can be used by other Perl modules.
 
-Here is how the detction logic works:
+Here is how the detection logic works:
 
 - check for user override for download
 
