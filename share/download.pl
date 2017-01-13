@@ -17,7 +17,7 @@ use Env qw( @PATH );
 my $arch = $Config{ptrsize} == 8 ? 'x86_64' : 'i686';
 my $root = ($ARGV[0]||'') eq '--blib' ? File::Spec->catdir(qw( blib lib auto share dist Alien-MSYS2 )) : File::Spec->rel2abs(dirname( __FILE__ ));
 
-if($^O eq 'msys' && -f "/mingw32_shell.bat")
+if($^O eq 'msys' && -f "/msys2_shell.cmd")
 {
   write_config(
     install_type => 'system',
@@ -122,7 +122,7 @@ eval {
           my $install_location;
           if(Win32API::Registry::RegQueryValueEx($item_key, "InstallLocation", [], Win32API::Registry::REG_SZ(), $install_location, []))
           {
-            if(-f File::Spec->catfile($install_location, 'mingw32_shell.bat'))
+            if(-f File::Spec->catfile($install_location, 'msys2_shell.cmd'))
             {
               $path = $install_location;
             }
