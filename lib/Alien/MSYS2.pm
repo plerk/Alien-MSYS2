@@ -163,7 +163,14 @@ sub bin_dir
     require File::Which;
     # assume if pacman is in the path then MSYS is already in the path
     my $pacman = File::Which::which('pacman');
-    return $pacman ? () : ($dir);
+    return if $pacman;
+    require Config;
+    require File::Basename;
+    # we need to make sure, with strawberry for example,
+    # that Perl's c compiler is used and not the MSYS2 one.
+    my $cc = File::Which::which(do { no warnings; $Config::Config{cc} });
+    $cc = File::Basename::dirname $cc if $cc;
+    return $cc ? ($cc, $dir) : ($dir);
   }
   else
   {

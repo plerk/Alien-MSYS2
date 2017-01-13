@@ -28,6 +28,7 @@ $post_diag = sub {
   diag "Alien::MSYS2->msys2_root         = ", eval { Alien::MSYS2->msys2_root } // " error: $@";
   diag "Alien::MSYS2->_config->{probe}   = ", eval { Alien::MSYS2->_config->{probe} } // " error: $@";
   diag "Alien::MSYS2->_config->{ptrsize} = ", eval { Alien::MSYS2->_config->{ptrsize} } // " error: $@";
+  diag "Alien::MSYS2->bin_dir[]          = ", $_ for eval { Alien::MSYS2->bin_dir };
 };
 
 my @modules = sort keys %modules;
