@@ -9,6 +9,10 @@ use File::Basename qw( dirname );
 use File::Spec;
 use File::Path qw( rmtree mkpath );
 use JSON::PP qw( encode_json );
+use Env qw( @PATH );
+
+# list of packages:
+# pacman -Qe | awk '{print $1}'
 
 my $arch = $Config{ptrsize} == 8 ? 'x86_64' : 'i686';
 my $root = ($ARGV[0]||'') eq '--blib' ? File::Spec->catdir(qw( blib lib auto share dist Alien-MSYS2 )) : File::Spec->rel2abs(dirname( __FILE__ ));
@@ -210,6 +214,16 @@ unless(-d $dest)
     rmtree( $dest, 0, 0 );
     die "error extracting: @{[ $ae->error ]}";
   };
+  
+  if($^O eq 'MSWin32')
+  {
+    local $ENV{PATH} = $ENV{PATH};
+    unshift @PATH, File::Spec->catdir($dest, qw( usr bin ));
+    system 'bash', '-l', -c => 'true';
+    system 'bash', '-l', -c => 'pacman -Syuu --noconfirm';
+    system 'bash', '-l', -c => 'pacman -S make --noconfirm';
+  }
+  
   write_config(
     install_type => 'share',
     probe        => 'share',

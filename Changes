@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - MSYS2 is properly setup on a share install
+  - GNU make is installed as part of a share install
 
 0.01      2017-01-12 16:36:34 -0500
   - initial version
