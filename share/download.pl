@@ -173,6 +173,14 @@ eval {
   }
 };
 
+unless(defined $ENV{ALIEN_INSTALL_TYPE})
+{
+  print "You have not requested an install type.  I could not find MSYS2 on your system\n";
+  print "By default, Alien::MSYS2 will only download MSYS2 into a share directory if you\n";
+  print "request it by setting ALIEN_INSTALL_TYPE to share.\n";
+  exit 2;
+}
+
 if(($ENV{ALIEN_INSTALL_TYPE}||'share') eq 'system')
 {
   print "You requested a system install via the ALIEN_INSTALL_TYPE environment variable\n";
