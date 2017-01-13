@@ -158,6 +158,7 @@ sub bin_dir
   my($class) = @_;
   return if $^O eq 'msys';
   my $dir = File::Spec->catdir( $class->msys2_root, qw( usr bin ) );
+  $dir =~ s{\\}{/}g;
   if($class->install_type eq 'system')
   {
     require File::Which;
@@ -170,6 +171,7 @@ sub bin_dir
     # that Perl's c compiler is used and not the MSYS2 one.
     my $cc = File::Which::which(do { no warnings; $Config::Config{cc} });
     $cc = File::Basename::dirname $cc if $cc;
+    $cc =~ s{\\}{/}g if $cc;
     return $cc ? ($cc, $dir) : ($dir);
   }
   else
