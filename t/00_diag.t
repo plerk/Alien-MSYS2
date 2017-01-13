@@ -14,6 +14,7 @@ $modules{$_} = $_ for qw(
   ExtUtils::MakeMaker
   File::ShareDir
   File::ShareDir::Install
+  File::Which
   HTTP::Tiny
   IO::Uncompress::UnXz
   JSON::PP

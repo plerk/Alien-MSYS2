@@ -155,12 +155,20 @@ will return an I<empty> list.
 
 sub bin_dir
 {
-  # TODO: for a system install, bin_dir has to decide if MSYS2 is already
-  # in the path or not.
   my($class) = @_;
-  $^O ne 'msys' && $class->install_type eq 'system' ? () : do {
-    (File::Spec->catdir( $class->msys2_root, qw( usr bin ) ));
-  };
+  return if $^O eq 'msys';
+  my $dir = File::Spec->catdir( $class->msys2_root, qw( usr bin ) );
+  if($class->install_type eq 'system')
+  {
+    require File::Which;
+    # assume if pacman is in the path then MSYS is already in the path
+    my $pacman = File::Which::which('pacman');
+    return $pacman ? () : ($dir);
+  }
+  else
+  {
+    return ($dir);
+  }
 }
 
 =head2 cflags

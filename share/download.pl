@@ -37,7 +37,7 @@ eval {
 
   die "force" if $ENV{ALIEN_FORCE} || ($ENV{ALIEN_INSTALL_TYPE}||'system') ne 'system';
   die "not defined" unless defined $ENV{ALIEN_MSYS2_ROOT};
-  die "not found" unless -f File::Spec->catfile($ENV{ALIEN_MSYS2_ROOT}, 'mingw32_shell.bat');
+  die "not found" unless -f File::Spec->catfile($ENV{ALIEN_MSYS2_ROOT}, 'msys2_shell.cmd');
 
   write_config(
     install_type => 'system',
