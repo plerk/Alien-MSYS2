@@ -49,6 +49,38 @@ eval {
 
 eval {
 
+  # TRY to find MSYS2 in the PATH by looking for pacman
+  foreach my $dir (@PATH)
+  {
+    my $pacman_maybe = File::Spec->catfile($dir, 'pacman');
+    if(-f $pacman_maybe)
+    {
+      my($volume, $directories,$file) = File::Spec->splitpath( $pacman_maybe);
+      my @dirs = File::Spec->splitdir( $directories );
+      if(@dirs >= 2)
+      {
+        pop @dirs;
+        pop @dirs;
+        my $root = File::Spec->catdir($volume, @dirs);
+        my $cmd  = File::Spec->catfile($root, 'msys2_shell.cmd');
+        
+        if(-f $cmd)
+        {
+          write_config(
+            install_type => 'system',
+            msys2_root   => $ENV{ALIEN_MSYS2_ROOT},
+            probe        => 'pacman path',
+          );
+        }
+      }
+      die "only try the first pacman";
+    }
+  }
+
+};
+
+eval {
+
   # TRY to find MSYS2 using the uninstaller registry
   # ways that searching for existing MSYS2 install can fail:
   # 1. ALIEN_FORCE or ALIEN_INSTALL_TYPE specify a share install (see Alien::Base documentation)
