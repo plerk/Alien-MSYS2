@@ -103,7 +103,7 @@ provided for [Alien::Base](https://metacpan.org/pod/Alien::Base) compatibility. 
 
     Manifesto for the [Alien](https://metacpan.org/pod/Alien) concept.
 
-- [ALien::MSYS](https://metacpan.org/pod/ALien::MSYS)
+- [Alien::MSYS](https://metacpan.org/pod/Alien::MSYS)
 
     `MSYS` is a project with a similar name and feature set to `MSYS2`, but despite the name they
     are different projects, not different versions of the same project.  [Alien::MSYS](https://metacpan.org/pod/Alien::MSYS) provides

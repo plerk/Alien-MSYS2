@@ -209,7 +209,7 @@ sub dynamic_libs { () }
 
 Manifesto for the L<Alien> concept.
 
-=item L<ALien::MSYS>
+=item L<Alien::MSYS>
 
 C<MSYS> is a project with a similar name and feature set to C<MSYS2>, but despite the name they
 are different projects, not different versions of the same project.  L<Alien::MSYS> provides
