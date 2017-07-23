@@ -18,7 +18,7 @@ $modules{$_} = $_ for qw(
   HTTP::Tiny
   IO::Uncompress::UnXz
   JSON::PP
-  Test2::Suite
+  Test2::V0
   Test::Alien
   Test::More
 );

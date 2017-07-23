@@ -1,6 +1,4 @@
-use strict;
-use warnings;
-use Test2::Bundle::Extended;
+use Test2::V0;
 use Alien::MSYS2;
 use Test::Alien;
 use lib 't/lib';
